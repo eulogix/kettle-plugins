@@ -31,6 +31,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
 public abstract class EasyStepMeta extends BaseStepMeta implements StepMetaInterface {
 	
@@ -186,10 +187,10 @@ public abstract class EasyStepMeta extends BaseStepMeta implements StepMetaInter
 	{
 		try {
 			Gson gson = new GsonBuilder().create();
-			rep.saveStepAttribute( idTransformation, idStep, dataUid + "_nr_lines", data.size() );
+			rep.saveStepAttribute( idTransformation, idStep, dataUid + "_nr_rows", data.size() );
 			for ( int i = 0; i < data.size(); i++ ) {
 				  HashMap<String, String> line = data.get( i );
-				  rep.saveStepAttribute( idTransformation, idStep, i, "json_record", gson.toJson(line) );	
+				  rep.saveStepAttribute( idTransformation, idStep, i, dataUid + "_row", gson.toJson(line) );	
 		    }
 		} catch(Exception e){
 			throw new KettleException("Unable to save step into repository: "+idStep, e); 
@@ -231,13 +232,12 @@ public abstract class EasyStepMeta extends BaseStepMeta implements StepMetaInter
 	public ArrayList<HashMap<String, String>> readTableFromRep(String dataUid, Repository rep, IMetaStore metaStore, ObjectId idStep, List<DatabaseMeta> databases) throws KettleException  
 	{
 		ArrayList<HashMap<String, String>> ret = new ArrayList<HashMap<String, String>>();		
-		int nrLines = (int) rep.getStepAttributeInteger( idStep, dataUid + "_nr_lines" );
-			    
-	    for ( int i = 0; i < nrLines; i++ ) {
-	    	
-	    	String json = rep.getStepAttributeString( idStep, i, "json_record" );
+		int nrLines = (int) rep.getStepAttributeInteger( idStep, dataUid + "_nr_rows" );
+		java.lang.reflect.Type stringStringMap = new TypeToken<HashMap<String, String>>(){}.getType();
+	    for ( int i = 0; i < nrLines; i++ ) {	
+	    	String json = rep.getStepAttributeString( idStep, i, dataUid + "_row" );
 	    	JsonElement root = new JsonParser().parse(json);
-	    	HashMap<String, String> line = (HashMap<String, String>) new Gson().fromJson(root, Map.class);
+	    	HashMap<String, String> line = new Gson().fromJson(root, stringStringMap);
 	        ret.add( line );
 	    }
 	    return ret;
