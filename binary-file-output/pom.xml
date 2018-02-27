@@ -35,25 +35,25 @@
 		<dependency>
 			<groupId>pentaho-kettle</groupId>
 			<artifactId>kettle-core</artifactId>
-			<version>7.0-SNAPSHOT</version>
+			<version>7.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>pentaho-kettle</groupId>
 			<artifactId>kettle-engine</artifactId>
-			<version>7.0-SNAPSHOT</version>
+			<version>7.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>pentaho-kettle</groupId>
 			<artifactId>kettle-dbdialog</artifactId>
-			<version>7.0-SNAPSHOT</version>
+			<version>7.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>pentaho-kettle</groupId>
 			<artifactId>kettle-ui-swt</artifactId>
-			<version>7.0-SNAPSHOT</version>
+			<version>7.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 
